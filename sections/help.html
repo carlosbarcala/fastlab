@@ -1,0 +1,52 @@
+
+<div class="container mt-5">
+    <h1>Crear proyectos con Entornos Virtuales</h1>
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <h2>Proyecto en Python </h2>
+            <ol>
+                <li>Crea una carpeta para tu proyecto: <code>mkdir mi_proyecto_python</code></li>
+                <li>Accede a la carpeta de tu proyecto: <code>cd mi_proyecto_python</code></li>
+                <li>Crea un entorno virtual de Python: <code>python -m venv venv</code></li>
+                <li>Activa el entorno virtual: <code>source venv/bin/activate</code></li>
+                <li>Instala las dependencias de tu proyecto en el entorno virtual, por ejemplo: <code>pip install nombre_dependencia</code></li>
+                <li>Desarrolla tu proyecto en Python dentro del entorno virtual.</li>
+                <li>Desactiva el entorno virtual cuando hayas terminado: <code>deactivate</code></li>
+            </ol>
+        </div>
+
+        <div class="col-md-6">
+            <h2>Proyecto en Node.js</h2>
+            <ol>
+                <li>Crea una carpeta para tu proyecto: <code>mkdir mi_proyecto_node</code></li>
+                <li>Accede a la carpeta de tu proyecto: <code>cd mi_proyecto_node</code></li>
+                <li>Inicializa un proyecto de Node.js: <code>npm init -y</code></li>
+                <li>Crea un archivo `.npmrc` en la raíz de tu proyecto con el siguiente contenido para establecer la ubicación del directorio de Node.js en tu proyecto:
+                    <pre><code>
+prefix=${PWD}/node_modules
+                    </code></pre>
+                </li>
+                <li>Instala las dependencias de tu proyecto localmente en el directorio `node_modules`: <code>npm install nombre_dependencia</code></li>
+            </ol>
+        </div>
+
+        <div class="col-md-6">
+            <h2>Proyecto en PHP</h2>
+            <ol>
+                <li>Crea una carpeta para tu proyecto: <code>mkdir mi_proyecto_php</code></li>
+                <li>Accede a la carpeta de tu proyecto: <code>cd mi_proyecto_php</code></li>
+                <li>Crea un archivo `composer.json` para gestionar las dependencias de PHP en tu proyecto. Por ejemplo:
+                    <pre><code>
+{
+"require": {
+    "nombre_dependencia": "*"
+}
+}
+                    </code></pre>
+                </li>
+                <li>Instala las dependencias de tu proyecto en el directorio local: <code>php composer install</code></li>
+            </ol>
+        </div>
+    </div>
+</div>

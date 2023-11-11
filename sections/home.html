@@ -1,0 +1,68 @@
+
+<div class="container mt-2">
+    <div class="row">
+        <div class="col-md-12">
+
+                <h1>Bienvenido a tu espacio de la estación de trabajo</h1>
+                <hr>
+                <p>
+                    En este espacio podrás desarrollar para tus proyectos y crear prototipos.
+                </p>
+                <p>
+                    Puedes consultar la documentación necesaria para empezar a trabajar, en los siguientes enlaces:
+                    <ol>
+                        <li><a href="#help/projects">Cómo crear proyectos con o sin entornos virtuales en PHP, Python o Node.js.</a></li>
+                        <li><a href="#help/use">Cómo usar tu espacio de trabajo</a>.</li>
+                        <li><a href="#help/docker">Desplegar contenedores Docker</a>.</li>
+                        <li><a href="#help/use">Cómo conectarte a los diferentes servicios de la estación de trabajo.</a></li>
+                    </ol>
+                </p>
+                <h2>Información del servidor</h2>
+                <h4>Sistema operativo del entorno</h4>
+                <p>
+                    El sistema operativo de tu espacio de trabajo es <strong>Debian 12</strong>.
+                    <ul id="home-modules">
+                        
+                    </ul>
+                </p>
+                <h4>Recursos hardware del sistema</h4>
+                <ul id="home-hardware">
+
+                </ul>
+                
+        </div>
+
+    </div>
+</div>
+<script>
+    class SectionHome {
+
+        onInit() {
+            // solicitar al servidor los modulos instalados
+            App.send('system', 'modules', {} , function(data) {
+                   // añadir al listado el nombre con la version, que bviene een el dict
+                     const modules = document.querySelector('#home-modules');
+                        modules.innerHTML = '';
+                        for( let module in data ) {
+                            const version = data[module];
+                            let li = document.createElement('li');
+                            li.innerHTML = `${module}: ${version}`;
+                            modules.appendChild(li);
+                        }
+                });   
+            // hardware 
+            App.send('system', 'hardware', {} , function(data) {
+                   // añadir al listado el nombre con la version, que bviene een el dict
+                     const hardware = document.querySelector('#home-hardware');
+                        hardware.innerHTML = '';
+                        for( let module in data ) {
+                            const version = data[module];
+                            let li = document.createElement('li');
+                            li.innerHTML = `${module}: ${version}`;
+                            hardware.appendChild(li);
+                        }
+                });
+        }
+
+    }
+</script>

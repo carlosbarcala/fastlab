@@ -1,0 +1,57 @@
+
+<style>
+    .panel ul {
+        list-style: none;
+        padding: 0px;
+    }
+    .panel li {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 5px;
+        margin: 0 0 5px 0;
+    }
+    .panel .progress-bar {
+        border: 1px solid black;
+        border-radius: 4px;
+        height: 20px;
+    }
+    .panel .used {
+        display: inline-block;
+        background-color: red;
+        border-radius: 4px;
+        height: 100%;
+    }
+</style>
+
+<script>
+    class SectionMonitorConsumption extends Section {
+
+        onInit() {
+            
+        }
+
+        onShow() {
+            App.send('monitor', 'consumption', {} , this.onLoadInfo.bind(this), function(err) {
+                    console.error(err);
+                    clearInterval( this.loadInfo );
+                }.bind(this));
+        }
+
+
+        onLoadInfo(data) {
+
+        }
+
+        onHidden() {
+        }
+
+        onClose() {
+        }
+    
+    }
+</script>
+
+<div class="panel mt-2">
+    <ul id="list">
+    </ul>
+</div>

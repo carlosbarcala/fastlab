@@ -1,0 +1,70 @@
+
+
+<div class="users mt-2">
+    
+    <div class="container">
+        <button class="btn btn-primary float-end" onclick="window.location.href='#users-create';">Crear usuario</button>
+    </div>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Directorio</th>
+                <th>Shell</th>
+                <th>Sudoer</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>    
+</div>
+
+<script>
+
+    class SectionUsers {
+
+        onInit() {
+            
+        }
+
+        onShow() {
+            this.loadUsers();
+        }
+
+        loadUsers() {
+            App.send('users', 'list', {} , function(data) {
+                    const tbody = document.querySelector('.users tbody');
+                    tbody.innerHTML = '';
+                    for( let user of data.users ) {
+                        let tr = document.createElement('tr');
+                        tr.innerHTML = `<td>${user.name}</td>
+                                        <td>${user.home}</td>
+                                        <td>${user.shell}</td>
+                                        <td>${user.sudoer}</td>  
+                                        <td>
+                                            <button class="btn btn-primary btn-danger" onclick="SectionUsers.deleteUser('${user.name}')">Eliminar</button>
+                                        </td>`;
+                        tbody.appendChild(tr);
+                    }
+                });
+        
+        }
+
+        static deleteUser(username) {
+            App.send('users', 'delete', {username: username} , function(data) {
+                    SectionUsers.instance().loadUsers();
+                });
+        }
+
+        onHide() {
+
+        }
+
+        onClose() {
+            
+        }
+
+    }
+
+</script>

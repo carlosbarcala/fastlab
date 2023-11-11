@@ -1,0 +1,84 @@
+
+<style>
+    .panel ul {
+        list-style: none;
+        padding: 0px;
+    }
+    .panel li {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 5px;
+        margin: 0 0 5px 0;
+    }
+    .panel .progress-bar {
+        border: 1px solid black;
+        border-radius: 4px;
+        height: 20px;
+    }
+    .panel .used {
+        display: inline-block;
+        background-color: red;
+        border-radius: 4px;
+        height: 100%;
+    }
+</style>
+
+<script>
+    class SectionMonitorTemperatures extends Section {
+        interval;
+        create=false;
+        onInit() {
+            
+        }
+
+        onShow() {
+            this.interval = setInterval( this.loadInfo.bind(this), 2000 );
+        }
+
+        loadInfo() {
+            App.send('monitor', 'temperatures', {} , this.onLoadInfo.bind(this), function(err) {
+                    console.log(err);
+                    clearInterval( this.loadInfo );
+                }.bind(this));
+        }
+
+        onLoadInfo(data) {
+
+            var ul = document.getElementById("list-temperatures");
+            ul.innerHTML = '';
+
+            for (var sensor in data) {
+                let device = data[sensor];
+                var li = document.createElement("li");
+                let span = document.createElement('strong');
+                span.textContent = device.Adapter + ' / ' + sensor;
+                li.appendChild(span);
+
+                let index = 1;
+                for (var key in data[sensor]) {
+                    if (key == 'Adapter') continue;
+                    let span = document.createElement('p');
+                    span.textContent =  key+': '+device[key]['temp'+(index++)+'_input'] + '°C';
+                    li.appendChild(span);
+                }
+
+                ul.appendChild(li);
+            }
+
+        }
+
+        onHidden() {
+            clearInterval( this.interval );
+        }
+
+        onClose() {
+            clearInterval( this.interval );
+        }
+    
+    }
+</script>
+
+<div class="panel mt-2">
+    <ul id="list-temperatures">
+    </ul>
+</div>

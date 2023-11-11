@@ -1,0 +1,1 @@
+{"users":[{"name":"administrador","home":"\/home\/administrador","shell":"\/bin\/bash","sudoer":true},{"name":"linux","home":"\/home\/linux","shell":"\/bin\/bash","sudoer":false},{"name":"cbarcala","home":"\/home\/cbarcala","shell":"\/bin\/bash","sudoer":true},{"name":"pepito","home":"\/home\/pepito","shell":"\/bin\/bash","sudoer":false}]}

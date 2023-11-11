@@ -1,0 +1,104 @@
+
+<div class="container ">
+    <h1>Cómo usar tu cuenta de desarrollador</h1>
+    <hr>
+    <h2 class="">Acceso a tus archivos en el directorio personal: /home/tu_nombre_de_usuario</h2>
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <h3>Acceso mediante SAMBA</h3>
+            <p>
+                Para acceder a tu directorio personal a través de Samba, sigue estos pasos:</p>
+            <ol>
+                <li>Abre una ventana de explorador de archivos en tu computadora.</li>
+                <li>En la barra de direcciones, escribe la siguiente ruta: <strong>smb://workstation.sixtema.int/tu_nombre_de_usuario</strong>.</li>
+                <li>A continuación, deberías poder acceder a tu directorio personal.</li>
+            </ol>
+            <h3> Acceso mediante SSH</h3>
+            <p>Para acceder a tu directorio personal a través de SSH, sigue estos pasos:</p>
+            <ol>
+                <li>Abre una terminal.</li>
+                <li>Con el comando <code>ssh tu_nombre_de_usuario@workstation.sixtema.int</code>, inicia sesión en el sistema.</li>
+                <li>Accede a tu directorio personal con el comando <code>cd /home/tu_nombre_de_usuario</code>.</li>
+                <li>Ahora podrás ejecutar comandos, ejecutar las aplicaciones de tus proyectos.</li>
+            </ol>
+            <h3>Acceso mediante SFTP</h3>
+            <p>Para acceder a tu directorio personal a través de SFTP, sigue estos pasos:</p>
+            <ol>
+                <li>Abre tu cliente SFTP favorito.</li>
+                <li>Con los siguientes parametros, inicia sesión en el sistema.</li>
+            </ol>
+            <ul>
+                <li>Host: <strong>workstation.sixtema.int</strong></li>
+                <li>Usuario: <strong>tu_nombre_de_usuario</strong></li>
+                <li>Contraseña: <strong>tu_contraseña</strong></li>
+                <li>Directorio remoto: <strong>/home/tu_nombre_de_usuario</strong></li>
+                <li>Puerto: <strong>22</strong></li>
+            </ul>
+        </div> 
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <h2>Acceso a tu espacio público mediante navegador web.</h2>
+
+            <p>Para acceder a tu espacio público a través de un navegador web, sigue estos pasos:</p>
+            <ol>
+                <li>Abre el navegador web.</li>
+                <li>En la barra de direcciones, ingresa la dirección <strong>http://workstation.sixtema.int/site/tu_nombre_de_usuario</strong>.</li>
+                <li>A continuación, deberías poder acceder a tu espacio público y explorar su contenido.</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <h2>Acceso a la base de datos MariaDB</h2>
+            <p>Para acceder a la base de datos MariaDB, tienes varias opciones:</p>
+            <h3>Acceso mediante SSH</h3>
+            <ol>
+                <li>Abre una terminal.</li>
+                <li>Con el comando <code>ssh tu_nombre_de_usuario@workstation.sixtema.int</code>, inicia sesión en el sistema.</li>
+                <li>Accede a la base de datos con el comando <code>mysql -u tu_nombre_de_usuario -p</code>.</li>
+                <li>Ingresa con tu contraseña.</li>
+                <li>Ahora podrás ejecutar comandos SQL.</li>
+            </ol>
+            <h3>Acceso mediante con gestor de base de datos</h3>
+            <p>Para acceder , sigue estos pasos:</p>
+            <ol>
+                <li>Abre tu gestor de base de datos favorito.</li>
+                <li>Utiliza una conexión que permita usar conexión SSH y conexión con MariaDB a la vez.</li>
+                <li>Utiliza los parametros SSH siguientes:
+                    <ul>
+                        <li>Host: <strong>workstation.sixtema.int</strong></li>
+                        <li>Usuario: <strong>tu_nombre_de_usuario</strong></li>
+                        <li>Contraseña: <strong>tu_contraseña</strong></li>
+                        <li>Puerto: <strong>22</strong></li>
+                    </ul>
+                </li>
+                <li>Utiliza los parametros de conexión con MariaDB siguientes:
+                    <ul>
+                        <li>Host: <strong>localhost</strong></li>
+                        <li>Usuario: <strong>tu_nombre_de_usuario</strong></li>
+                        <li>Contraseña: <strong>tu_contraseña</strong></li>
+                        <li>Base de datos: <strong>tu_nombre_de_usuario</strong></li>
+                        <li>Puerto: <strong>3306</strong></li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <h2>Utilizar docker compose</h2>
+            <p>Para utilizar docker compose, sigue estos pasos:</p>
+            <ol>
+                <li>Abre una terminal.</li>
+                <li>Con el comando <code>ssh tu_nombre_de_usuario@workstation.sixtema.int</code>, inicia sesión en el sistema.</li>
+                <li>Situáte en el directorio de tu proyecto.</li>
+                <li>Crea un archivo <strong>docker-compose.yml</strong> con el contenido de tu proyecto.</li>
+                <li>Ejecuta el comando <code>docker-compose up -d</code> para iniciar los contenedores.</li>
+                <li>Ejecuta el comando <code>docker-compose down -v</code> para detener los contenedores.</li>
+            </ol>
+        </div>
+    </div>
+</div>

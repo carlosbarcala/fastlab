@@ -1,0 +1,77 @@
+<h2>Crear un usuario del sistema</h2>
+<p>
+    Creación de un nuevo usuario en el sistema.</p>
+    <p>Este usuario tendrá acceso a su directorio personal a través de Samba, mediante una conexión a través de la ruta <strong>"smb://workstation.sixtema.int/nombre_de_usuario"</strong>.</p>
+    <p>Se configurará un VirtualHost en Apache para dar acceso al directorio en el directorio personal <strong>"/home/nombre_de_usuario/public"</strong>.</p>
+    <p>Para acceder al espacio público mediante navegador web se utilizará la dirección <strong>"http://ip/<strong>in</strong>/nombre_de_usuario"</strong>.</p>
+</p>
+<form class="">
+    <div class="mb-3">
+        <label for="txtUsername" class="form-label">Nombre de usuario</label>
+        <input type="text" class="form-control" id="txtUsername" placeholder="Añadir nombre de usuario"  length="16" maxlength="32">
+        <label for="txtPassword" class="form-label">Contraseña</label>
+        <input type="text" class="form-control" id="txtPassword" placeholder="Añadir contraseña"  length="16" maxlength="16">
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="sudoer">
+        <label class="form-check-label" for="sudoer">
+                Dar privilegios de administrador ( Sudoer )
+        </label>
+    </div>
+    <input type="button" class="btn btn-primary mt-3" id="btnCreateUser" value="Crear usuario">
+</form>
+
+<script>
+
+    class SectionUsersCreate {
+        btnCreateUser;
+        txtName;
+        chkSudoer;
+
+        onInit() {
+            this.txtName = document.getElementById('txtUsername');
+            this.txtPassword = document.getElementById('txtPassword');
+            this.chkSudoer = document.getElementById('sudoer')
+            this.btnCreateUser = document.getElementById('btnCreateUser');
+            this.btnCreateUser.addEventListener('click' , this.onClickButtonCreateUser.bind(this) );
+        }
+
+        onShow() {
+            this.clearForm();
+        }
+
+        onClickButtonCreateUser(event) {
+            let username = this.txtName.value;
+            let password = this.txtPassword.value;
+            if ( username != '' ) {
+                let sudoer = this.chkSudoer.checked;
+                App.send('users', 'create', { username: username, password: password, sudoer: sudoer } , function(data) {
+                    debugger;
+                        if ( data.valid ) {
+                            alert('El usuario fué creado correctamente');
+                        } else {
+                            alert('No se ha podido crear el usuario revise el formulario e inténtalo enviar de nuevo');
+                        }
+                        this.clearForm();
+                    });
+            } else {
+                alert('Añade un nombre de usuario');
+            }
+        }
+
+        clearForm() {
+            this.txtName.value = '';
+            this.chkSudoer.checked = false;
+        }
+
+        onHide() {
+
+        }
+
+        onClose() {
+
+        }
+
+    }
+
+</script>

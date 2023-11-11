@@ -1,0 +1,183 @@
+
+<style>
+    .panel ul {
+        list-style: none;
+        padding: 0px;
+    }
+    .panel li {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 5px;
+        margin: 0 0 5px 0;
+    }
+    .panel .progress-bar {
+        border: 1px solid black;
+        border-radius: 4px;
+        height: 20px;
+    }
+    .panel .used {
+        display: inline-block;
+        background-color: red;
+        border-radius: 4px;
+        height: 100%;
+    }
+</style>
+
+<script>
+    class SectionMonitor extends Section {
+        interval;
+        create=false;
+        onInit() {
+            
+        }
+
+        onShow() {
+            this.interval = setInterval( this.loadInfo.bind(this), 2000 );
+        }
+
+        loadInfo() {
+            App.send('monitor', 'info', {} , this.onLoadInfo.bind(this), function(err) {
+                    console.log(err);
+                    clearInterval( this.loadInfo );
+                }.bind(this));
+        }
+
+        makeHTML(data) {
+            const ul = document.getElementById('list');
+            ul.innerHTML = '';
+            // Memory 
+            let li = document.createElement('li');
+            li.id = 'memory-system';
+            let text = document.createElement('span');
+            text.innerHTML = 'Memoria: ';
+            let span = document.createElement('span');
+            span.id = 'memory-system-value';
+            li.appendChild(text);
+            li.appendChild(span);
+            li.appendChild( this.makeBar( 'memory-system-bar' ) );
+            ul.appendChild(li);
+
+            // Swap
+            li = document.createElement('li');
+            li.id = 'swap-system';
+            text = document.createElement('span');
+            text.innerHTML = 'Swap: ';
+            span = document.createElement('span');
+            span.id = 'swap-system-value';
+            li.appendChild(text);
+            li.appendChild(span);
+            li.appendChild( this.makeBar( 'swap-system-bar' ) );
+            ul.appendChild(li);
+
+            //CPU
+            for( let name in data.cpu ) {
+                let cpu = data.cpu[name];
+                let li = document.createElement('li');
+                li.id = name;
+                let text = document.createElement('span');
+                text.innerHTML = name + ': ';
+                li.appendChild(text);
+                li.appendChild( this.makeBar( name+'-bar' ) );
+                ul.appendChild(li);
+            }
+            //GPU Memory
+            for( let name in data.gpu ) {
+                let gpu = data.gpu[name];
+                let li = document.createElement('li');
+                li.id = name+'-memory';
+                let text = document.createElement('span');
+                text.innerHTML = 'Memoria GPU ' + name + ': ';
+                li.appendChild(text);
+                let value = document.createElement('span');
+                value.id = name+'-memory-value';
+                li.appendChild(value);
+                li.appendChild( this.makeBar( name+'-memory-bar' ) );
+                ul.appendChild(li);
+            }
+            // GPU Usage
+            for( let name in data.gpu ) {
+                let gpu = data.gpu[name];
+                let li = document.createElement('li');
+                li.id = name+'-use';
+                let text = document.createElement('span');
+                text.innerHTML = 'GPU ' + name + ': ';
+                li.appendChild(text);
+                li.appendChild( this.makeBar( name+'-use-bar' ) );
+                ul.appendChild(li);
+            }
+        }
+
+        makeBar( id ) {
+            let div_container = document.createElement('div');
+            div_container.classList.add('progress-bar');
+            let div_progress = document.createElement('div');
+            div_progress.classList.add('used')
+            div_container.appendChild( div_progress );
+            div_progress.id = id;
+            return div_container;
+        }
+
+        setData(data) {
+            // Memory
+            let memory = document.getElementById('memory-system-value');
+            memory.innerHTML = parseInt( data.memory.total/(1024*1024) ) + ' MB';
+            this.setBar( 'memory-system-bar', data.memory.total, data.memory.total - data.memory.free );
+
+            // Swap
+            let swap = document.getElementById('swap-system-value');
+            swap.innerHTML = parseInt( data.swap.total/(1024*1024) ) + ' MB';
+            this.setBar( 'swap-system-bar', data.swap.total, data.swap.total - data.swap.free );
+
+            // CPU
+            for( let name in data.cpu ) {
+                let cpu = data.cpu[name];
+                let li = document.getElementById(name);
+                this.setBar( name+'-bar', 100 , 100 - cpu.idle  );
+            }
+            // GPU Memory
+            for( let name in data.gpu ) {
+                let gpu = data.gpu[name];
+                let memory = document.getElementById(name+'-memory-value');
+                memory.innerHTML = parseInt( gpu.memory.total/(1024*1024) ) + ' MB';
+                this.setBar( name+'-memory-bar', gpu.memory.total, gpu.memory.total - gpu.memory.free );
+            }
+            // GPU Usage
+            for( let name in data.gpu ) {
+                let gpu = data.gpu[name];
+                this.setBar( name+'-use-bar', 100, gpu.usage );
+            }
+        }
+        setBar( id , total , used ) {
+            const div_progress = document.getElementById(id);
+            let percent_use = parseInt( ( used / total ) * 100 );
+            div_progress.style.width = percent_use + '%';
+        }
+
+        onLoadInfo(data) {
+
+            if ( !this.create ) {
+                this.makeHTML( data );
+                this.create = true;
+            }
+
+            this.setData( data );
+                                                                                            
+        }
+
+        onHide() {
+            debugger;
+            clearInterval( this.interval );
+        }
+
+        onClose() {
+            debugger;
+            clearInterval( this.interval );
+        }
+    
+    }
+</script>
+
+<div class="panel mt-2">
+    <ul id="list">
+    </ul>
+</div>
