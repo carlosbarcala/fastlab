@@ -2,7 +2,6 @@
 
 class Monitor extends Api {
 
-
     public function system($data) {
 
         $response = [
@@ -130,41 +129,6 @@ class Monitor extends Api {
       return [ 'data' => $data ];
 
     }
-
-    // obtener los consumos
-    public function consumption($data) {
-
-      require('tuya.php');
-
-      $tuya = new TuyaCloud([
-        "userName" => "carlosthec@gmail.com", // username/email to access to SmartLife/Tuya app
-        "password" => "reina291I$", // password to access to SmartLife/Tuya app
-        "bizType" => "smart_life", // type ('tuya' or 'smart_life')
-        "countryCode" => "34", // Country code (International dialing number), e.g. "33" for France or "1" for USA
-        "region" => "eu" // region (az=Americas, ay=Asia, eu=Europe)
-      ]);
-
-      $smartlife_devices = [];
-
-      // to get a list of your devices
-      $devices = $tuya->getDevices();
-      var_dump( $devices );
-      foreach($devices as $device) {
-        $smartlife_devices[$device->id] = $device;
-        // obtener el consumo
-        $status = $tuya->getState([
-          "id" => $device->id,
-          'name' => 'Deshumificador'
-        ]);
-        var_dump( $status );
-      }
-
-
-
-
-    }
-
-
 
   }
 

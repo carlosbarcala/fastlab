@@ -2,7 +2,6 @@
 
 class System extends Api {
 
-
     public function modules() {
 
         $modules_version = [
@@ -32,16 +31,12 @@ class System extends Api {
 
     public function hardware() {
 
-
-
         $hardware = [
             'cpu' => 'cat /proc/cpuinfo | grep "model name" | head -n 1 | cut -d ":" -f 2',
             'ram' => 'free -h | grep Mem | awk \'{print $2}\'',
             // nombre de la GPU y memoria
             'gpu' => 'lspci | grep VGA | cut -d ":" -f 3',
         ];
-
-
 
         // obtener las versiones
         $hardware_info = [];
@@ -68,5 +63,4 @@ class System extends Api {
         
     }
 
-  
 }
